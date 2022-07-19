@@ -3,37 +3,44 @@ var path = "samples.json";
 const dataPromise = d3.json(path);
 console.log("Data Promise: ", dataPromise);
 
-
-var belly_data = dataPromise.then(function(data) {
-    console.log("json: ", data);
-    let names =  data.names;
-    const def = names[0];
-    console.log("names: ", names);
-    var options = d3.select("#selDataset").append("option");
-    options.text(def);
-    for (let i = 0; i < data.samples.length; i++) {
-      if (data.samples[i].id === def) {
-        console.log(data.samples[i]);
+upDatePlots('940');
+//copy and paste this all into the options changed function! Make all of this a function!
+function upDatePlots(id) {
+    var belly_data = dataPromise.then(function(data) {
+      console.log("json: ", data);
+      let names =  data.names;
+      console.log("names: ", names);
+      var options = d3.select("#selDataset");
+      for (let i = 0; i < names.length; i++){
+        options.append("option").text(names[i]);
       }
-    }
 
-    meta(data, def);
-    horchart(data, def);
-    bubble(data, def)
-  })
+      var metadata = d3.select("#sample-metadata");
 
-function meta(data, id) {
-  var metadata = d3.select("#sample-metadata");
-  var metalist = metadata.append("ul")
+      meta(data, id, metadata);
+      horchart(data, id);
+      bubble(data, id);
+    
+  });
+};
+
+d3.select("#selDataset").on("change", optionChanged());
+
+function optionChanged(id) {
+  upDatePlots(id);
+};
+
+function meta(data, id, ul) {
   for (let i = 0; i < data.samples.length; i++) {
     if (data.samples[i].id === id) {
-      metalist.append("li").text(`id: ${data.metadata[i].id}`);
-      metalist.append("li").text(`age: ${data.metadata[i].age}`);
-      metalist.append("li").text(`bbtype: ${data.metadata[i].bbtype}`);
-      metalist.append("li").text(`ethnicity: ${data.metadata[i].ethnicity}`);
-      metalist.append("li").text(`gender: ${data.metadata[i].gender}`);
-      metalist.append("li").text(`location: ${data.metadata[i].location}`);
-      metalist.append("li").text(`wfreq: ${data.metadata[i].wfreq}`);
+
+      ul.html(`<li>id: ${data.metadata[i].id}</li>
+      <li>age: ${data.metadata[i].age}</li>
+      <li>bbtype: ${data.metadata[i].bbtype}</li>
+      <li>ethnicity: ${data.metadata[i].ethnicity}</li>
+      <li>gender: ${data.metadata[i].gender}</li>
+      <li>location: ${data.metadata[i].location}</li>
+      <li>wfreq: ${data.metadata[i].wfreq}</li>`);
     }
   }
 }
