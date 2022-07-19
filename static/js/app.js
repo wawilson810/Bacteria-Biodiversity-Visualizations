@@ -13,7 +13,7 @@ function upDatePlots(id) {
       var options = d3.select("#selDataset");
       for (let i = 0; i < names.length; i++){
         options.append("option").text(names[i]);
-      }
+      };
 
       var metadata = d3.select("#sample-metadata");
 
