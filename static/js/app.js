@@ -34,13 +34,13 @@ function meta(data, id, ul) {
   for (let i = 0; i < data.samples.length; i++) {
     if (data.samples[i].id === id) {
 
-      ul.html(`<li>id: ${data.metadata[i].id}</li>
+      ul.html(`<ul><li>id: ${data.metadata[i].id}</li>
       <li>age: ${data.metadata[i].age}</li>
       <li>bbtype: ${data.metadata[i].bbtype}</li>
       <li>ethnicity: ${data.metadata[i].ethnicity}</li>
       <li>gender: ${data.metadata[i].gender}</li>
       <li>location: ${data.metadata[i].location}</li>
-      <li>wfreq: ${data.metadata[i].wfreq}</li>`);
+      <li>wfreq: ${data.metadata[i].wfreq}</li></ul>`);
     }
   }
 }
